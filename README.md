@@ -17,5 +17,5 @@ symdl is a simple little tool, its function  is very similar to dlsym, with symd
 ## Installation
 ### CocoaPods
 1. Add `pod 'symdl'` to your Podfile.
-* Run `pod install` or `pod update`.
-* Import `<symdl/symdl.h>`
+2. Run `pod install` or `pod update`.
+3. Import `<symdl/symdl.h>`
