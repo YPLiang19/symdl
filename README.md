@@ -7,8 +7,8 @@ symdl is a simple little tool, its function  is very similar to dlsym, with symd
 ```
     typedef  void * (*MyFunc)(const char *__path, int __mode);
 
-    const char *fun_name = "dlopen";
-    MyFunc dlopen_ptr = symdl(fun_name);
+    const char * func_name = "dlopen";
+    MyFunc dlopen_ptr = symdl(func_name);
     if (dlopen_ptr) {
         dlopen_ptr("your path",RTLD_LAZY);
     }
@@ -17,5 +17,5 @@ symdl is a simple little tool, its function  is very similar to dlsym, with symd
 ## Installation
 ### CocoaPods
 1. Add `pod 'symdl'` to your Podfile.
-* Run `pod install` or `pod update`.
-* Import `<symdl/symdl.h>`
+2. Run `pod install` or `pod update`.
+3. Import `<symdl/symdl.h>`
