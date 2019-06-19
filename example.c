@@ -6,14 +6,11 @@
 //  Copyright © 2019 yongpengliang. All rights reserved.
 //
 #import <symdl/symdl.h>
-#import <dlfcn.h>
+#import <stdio.h>
 
 int main(){
-    typedef  void * (*MyFunc)(const char *__path, int __mode);
-    
-    const char *fun_name = "dlopen";
-    MyFunc dlopen_ptr = symdl(fun_name);
-    if (dlopen_ptr) {
-        dlopen_ptr("your path",RTLD_LAZY);
-    }
+    FILE *(*my_fopne)(char *, char*)  = symdl("fopen");
+    FILE *fp =  my_fopne("your path","w+");
+    //do something
+    return 0;
 }
