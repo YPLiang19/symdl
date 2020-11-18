@@ -6,6 +6,7 @@
 //
 
 #import "AppDelegate.h"
+#import <dlfcn.h>
 #import <symdl/symdl.h>
 
 @interface AppDelegate ()
@@ -14,11 +15,26 @@
 
 @implementation AppDelegate
 
+void my_load(void *p){
+    
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    my_load(fopen);
+    my_load(fclose);
+    my_load(write);
+    my_load(read);
     
-    FILE *(*my_fopne)(char *, char*)  = symdl("fopen");
-    NSLog(@"%p", my_fopne);
+    symdl("fopen");
+    symdl("fclose");
+    symdl("write");
+    symdl("read");
+    
+    symdl("fopen");
+    symdl("fclose");
+    symdl("write");
+    symdl("read");
+    
     // Override point for customization after application launch.
     return YES;
 }

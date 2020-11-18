@@ -18,6 +18,7 @@
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
 #include <mach-o/nlist.h>
+#include <pthread/pthread.h>
 
 #ifdef __LP64__
 typedef struct mach_header_64 mach_header_t;
@@ -36,6 +37,16 @@ typedef struct nlist nlist_t;
 #ifndef SEG_DATA_CONST
 #define SEG_DATA_CONST  "__DATA_CONST"
 #endif
+
+typedef struct {
+    char *name;
+    void *pointer;
+}cahce_item, *cahce_item_t, *cache_t;
+
+static cache_t cache = NULL;
+static int cache_next_index = 0;
+static int cache_capacity = 2;
+static pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 
 static void *match_name_with_section(const char *name, section_t *section, intptr_t slide, nlist_t *symtab, char *strtab, uint32_t *indirect_symtab) {
@@ -120,12 +131,70 @@ static void *func_pointer_with_name_in_image(const char *name, const struct mach
     return NULL;
 }
 
-void *symdl(const char * symbol){
+static void *read_from_cache(const char *name){
+    void *pointer = NULL;
+    pthread_rwlock_rdlock(&rwlock);
+    if (!cache) {
+        goto end;
+    }
+    for (int i = 0; i < cache_next_index; i++) {
+        cahce_item_t item = cache + i;
+        if (item->name == NULL) {
+            break;
+        }else if (strcmp(item->name, name) == 0 && item->pointer != NULL){
+            pointer = item->pointer;
+            break;
+        }
+    }
+end:
+    pthread_rwlock_unlock(&rwlock);
+    return pointer;
+}
+
+static void write_to_cache(const char *name, void *pointer){
+    pthread_rwlock_wrlock(&rwlock);
+    if (cache == NULL) {
+        cache = calloc(cache_capacity, sizeof(cahce_item));
+        if (cache == NULL) {
+            goto end;
+        }
+    }
+    if (cache_next_index >= cache_capacity) {
+        void *new_cache = calloc(cache_capacity * 2, sizeof(cahce_item));
+        if (new_cache == NULL) {
+            goto end;
+        }
+        memcpy(new_cache, cache, cache_capacity * sizeof(cahce_item));
+        cache_capacity *= 2;
+        free(cache);
+        cache = new_cache;
+    }
+    
+    cahce_item_t item = cache + cache_next_index;
+    item->name = strdup(name);
+    item->pointer = pointer;
+    cache_next_index++;
+    
+end:
+    pthread_rwlock_unlock(&rwlock);
+    
+}
+
+void *symdl(const char *symbol){
+    if (symbol == NULL) {
+        return NULL;
+    }
+    
+    void *pointer = read_from_cache(symbol);
+    if (pointer) {
+        return pointer;
+    }
     
     uint32_t image_count = _dyld_image_count();
     for (uint32_t i = 0; i < image_count; i++) {
         void *pointer = func_pointer_with_name_in_image(symbol, _dyld_get_image_header(i), _dyld_get_image_vmaddr_slide(i));
         if (pointer) {
+            write_to_cache(symbol, pointer);
             return pointer;
         }
     }
