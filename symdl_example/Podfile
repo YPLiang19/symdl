@@ -1,0 +1,8 @@
+
+# platform :ios, '8.0'
+
+target 'symdl_example' do
+pod 'symdl', :path => '../'
+# pod 'symdl'
+end
+

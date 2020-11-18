@@ -19,7 +19,7 @@
 extern "C" {
 #endif //__cplusplus
     SYMLD_VISIBILITY
-    void * symdl(const char * symbol);
+    void *symdl(const char * symbol);
     
 #ifdef __cplusplus
 }
@@ -27,3 +27,5 @@ extern "C" {
 
 
 #endif /* symdl_h */
+
+

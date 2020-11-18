@@ -1,0 +1,16 @@
+PODS:
+  - symdl (0.3.0)
+
+DEPENDENCIES:
+  - symdl (from `../`)
+
+EXTERNAL SOURCES:
+  symdl:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  symdl: b1812b7f4a544a8dd898ff01b4dee81f95edd347
+
+PODFILE CHECKSUM: dee657317d81bb9c2ebdd011dea4ab7ed48efe47
+
+COCOAPODS: 1.9.1
