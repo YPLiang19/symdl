@@ -45,7 +45,7 @@ typedef struct {
 
 static cache_t cache = NULL;
 static int cache_next_index = 0;
-static int cache_capacity = 2;
+static int cache_capacity = 128;
 static pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 
