@@ -8,7 +8,7 @@ DESC
 s.homepage     = "https://github.com/YPLiang19/symdl"
 s.license      = "MIT"
 s.author             = { "Yong PengLiang" => "yong_pliang@163.com" }
-s.ios.deployment_target = "8.0"
+s.ios.deployment_target = "9.0"
 s.source       = { :git => "https://github.com/YPLiang19/symdl.git", :tag => "#{s.version}" }
 s.source_files  = "symdl/**/*.{h,c}"
 end
