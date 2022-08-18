@@ -5,7 +5,7 @@
 //  Created by yongpengliang on 2019/5/30.
 //  Copyright © 2019 yongpengliang. All rights reserved.
 //
-
+//#include <stdio.h>
 #include <dlfcn.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -49,26 +49,6 @@ static int cache_capacity = 128;
 static pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 
-static void *match_name_with_section(const char *name, section_t *section, intptr_t slide, nlist_t *symtab, char *strtab, uint32_t *indirect_symtab) {
-    uint32_t *indirect_symbol_indices = indirect_symtab + section->reserved1;
-    void **indirect_symbol_bindings = (void **)((uintptr_t)slide + section->addr);
-    for (uint i = 0; i < section->size / sizeof(void *); i++) {
-        uint32_t symtab_index = indirect_symbol_indices[i];
-        if (symtab_index == INDIRECT_SYMBOL_ABS || symtab_index == INDIRECT_SYMBOL_LOCAL ||
-          symtab_index == (INDIRECT_SYMBOL_LOCAL   | INDIRECT_SYMBOL_ABS)) {
-          continue;
-        }
-        uint32_t strtab_offset = symtab[symtab_index].n_un.n_strx;
-        char *symbol_name = strtab + strtab_offset;
-        bool symbol_name_longer_than_1 = symbol_name[0] && symbol_name[1];
-        if (symbol_name_longer_than_1 &&
-            strcmp(&symbol_name[1], name) == 0) {
-            return  indirect_symbol_bindings[i];
-        }
-    }
-    return NULL;
-}
-
 
 static void *func_pointer_with_name_in_image(const char *name, const struct mach_header *header, intptr_t slide){
     Dl_info info;
@@ -79,7 +59,6 @@ static void *func_pointer_with_name_in_image(const char *name, const struct mach
     segment_command_t *cur_seg_cmd;
     segment_command_t *linkedit_segment = NULL;
     struct symtab_command* symtab_cmd = NULL;
-    struct dysymtab_command* dysymtab_cmd = NULL;
 
     uintptr_t cur = (uintptr_t)header + sizeof(mach_header_t);
     for (uint i = 0; i < header->ncmds; i++, cur += cur_seg_cmd->cmdsize) {
@@ -90,13 +69,10 @@ static void *func_pointer_with_name_in_image(const char *name, const struct mach
             }
         } else if (cur_seg_cmd->cmd == LC_SYMTAB) {
           symtab_cmd = (struct symtab_command*)cur_seg_cmd;
-        } else if (cur_seg_cmd->cmd == LC_DYSYMTAB) {
-          dysymtab_cmd = (struct dysymtab_command*)cur_seg_cmd;
         }
     }
 
-    if (!symtab_cmd || !dysymtab_cmd || !linkedit_segment ||
-        !dysymtab_cmd->nindirectsyms) {
+    if (!symtab_cmd || !linkedit_segment) {
         return NULL;
     }
 
@@ -105,26 +81,16 @@ static void *func_pointer_with_name_in_image(const char *name, const struct mach
     nlist_t *symtab = (nlist_t *)(linkedit_base + symtab_cmd->symoff);
     char *strtab = (char *)(linkedit_base + symtab_cmd->stroff);
 
-    // Get indirect symbol table (array of uint32_t indices into symbol table)
-    uint32_t *indirect_symtab = (uint32_t *)(linkedit_base + dysymtab_cmd->indirectsymoff);
-
-    cur = (uintptr_t)header + sizeof(mach_header_t);
-    for (uint i = 0; i < header->ncmds; i++, cur += cur_seg_cmd->cmdsize) {
-        cur_seg_cmd = (segment_command_t *)cur;
-        if (cur_seg_cmd->cmd == LC_SEGMENT_ARCH_DEPENDENT) {
-            if (strcmp(cur_seg_cmd->segname, SEG_DATA) != 0 &&
-                strcmp(cur_seg_cmd->segname, SEG_DATA_CONST) != 0) {
-                continue;
-            }
-            for (uint j = 0; j < cur_seg_cmd->nsects; j++) {
-                section_t *sect = (section_t *)(cur + sizeof(segment_command_t)) + j;
-                if ((sect->flags & SECTION_TYPE) == S_LAZY_SYMBOL_POINTERS) {
-                    return match_name_with_section(name, sect, slide, symtab, strtab, indirect_symtab);
-                }
-                if ((sect->flags & SECTION_TYPE) == S_NON_LAZY_SYMBOL_POINTERS) {
-                    return match_name_with_section(name, sect, slide, symtab, strtab, indirect_symtab);
-                }
-            }
+    uint32_t cmdsize = symtab_cmd->nsyms;
+    for (uint32_t i = 0; i < cmdsize; i++) {
+        nlist_t *nlist =  &symtab[i];
+        if ((nlist->n_type & N_STAB) || (nlist->n_type & N_TYPE) != N_SECT || nlist->n_sect != 1) {
+            continue;
+        }
+        const char *symbol_name = strtab + nlist->n_un.n_strx;
+        bool symbol_name_longer_than_1 = symbol_name[0] && symbol_name[1];
+        if (symbol_name_longer_than_1 && strcmp(&symbol_name[1], name) == 0) {
+            return (void *)(nlist->n_value + slide);;
         }
     }
     
