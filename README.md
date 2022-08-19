@@ -1,6 +1,6 @@
 
 # symdl
-symdl is a simple little tool, its function  is very similar to dlsym, with symdl, you can pass in the dynamic linked C function name string except 'dlopen' and 'dlsym', get the function pointer, so as to achieve the dynamic call of C function.
+symdl is a simple little tool, its function  is very similar to dlsym, with symdl, you can pass any global C function name string, so as to achieve the dynamic call of C function.
 
 
 ## Example
