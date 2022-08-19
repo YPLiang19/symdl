@@ -25,16 +25,11 @@ void my_load(void *p){
     my_load(write);
     my_load(read);
     
-    symdl("fopen");
-    symdl("fclose");
-    symdl("write");
-    symdl("read");
-    
-    symdl("fopen");
-    symdl("fclose");
-    symdl("write");
-    symdl("read");
-    
+    assert(symdl("fopen") == fopen);
+    assert(symdl("fclose") == fclose);
+    assert(symdl("write") == write);
+    assert(symdl("read") == read);
+
     // Override point for customization after application launch.
     return YES;
 }
