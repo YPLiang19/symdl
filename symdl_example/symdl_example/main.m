@@ -8,6 +8,10 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
+__attribute__((constructor)) void someBeforeMain(void){
+    printf("--------someBeforeMain-------\n");
+}
+
 int main(int argc, char * argv[]) {
     NSString * appDelegateClassName;
     @autoreleasepool {
