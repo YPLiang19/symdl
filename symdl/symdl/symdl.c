@@ -59,35 +59,22 @@ static void *func_pointer_with_name_in_image(const char *name, const struct mach
     segment_command_t *cur_seg_cmd;
     segment_command_t *linkedit_segment = NULL;
     struct symtab_command* symtab_cmd = NULL;
-    bool text_sect_find = false;
-    int text_sect_index = 1;
     uintptr_t cur = (uintptr_t)header + sizeof(mach_header_t);
     for (uint i = 0; i < header->ncmds; i++, cur += cur_seg_cmd->cmdsize) {
-        if (linkedit_segment && symtab_cmd && text_sect_find) {
+        if (linkedit_segment && symtab_cmd) {
             break;
         }
         cur_seg_cmd = (segment_command_t *)cur;
         if (cur_seg_cmd->cmd == LC_SEGMENT_ARCH_DEPENDENT) {
             if (strcmp(cur_seg_cmd->segname, SEG_LINKEDIT) == 0) {
                 linkedit_segment = cur_seg_cmd;
-            } else if (strcmp(cur_seg_cmd->segname, SEG_TEXT) == 0) {
-                section_t *section_cur = (section_t *)(cur + sizeof(segment_command_t));
-                for (int j = 0; j < cur_seg_cmd->nsects; j++, section_cur++) {
-                    if (strcmp(section_cur->sectname, SECT_TEXT) == 0) {
-                        text_sect_index += j;
-                        text_sect_find = true;
-                        break;
-                    }
-                }
-            } else if (!text_sect_find) {
-                text_sect_index += cur_seg_cmd->nsects;
             }
         } else if (cur_seg_cmd->cmd == LC_SYMTAB) {
           symtab_cmd = (struct symtab_command*)cur_seg_cmd;
         }
     }
 
-    if (!symtab_cmd || !linkedit_segment || !text_sect_find) {
+    if (!symtab_cmd || !linkedit_segment) {
         return NULL;
     }
 
@@ -99,7 +86,7 @@ static void *func_pointer_with_name_in_image(const char *name, const struct mach
     uint32_t cmdsize = symtab_cmd->nsyms;
     for (uint32_t i = 0; i < cmdsize; i++) {
         nlist_t *nlist =  &symtab[i];
-        if ((nlist->n_type & N_STAB) || (nlist->n_type & N_TYPE) != N_SECT || nlist->n_sect != text_sect_index) {
+        if ((nlist->n_type & N_STAB) || (nlist->n_type & N_TYPE) != N_SECT) {
             continue;
         }
         const char *symbol_name = strtab + nlist->n_un.n_strx;

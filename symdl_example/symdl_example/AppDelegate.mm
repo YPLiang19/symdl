@@ -18,6 +18,10 @@ SomeCppClass sc2;
 
 @implementation AppDelegate
 
+int MyIntGlobalVar = 10;
+NSString * MyNSStringGlobalVar = @"efasg";
+const char * MyCStringGlobalVar = "afaf";
+
 extern "C" void my_load(void *p){
     NSLog(@"%p", p);
 }
@@ -45,6 +49,22 @@ extern "C" void my_load(void *p){
     
     printf("fopen addrss: %p\n", fopen);
     printf("dymdl fopen addrss: %p\n", fopen_ptr);
+    
+//    extern NSString *  NSParagraphStyleAttributeName;
+    
+    NSLog(@"NSParagraphStyleAttributeName: %@", NSParagraphStyleAttributeName);
+    
+    int *MyIntGlobalVarPtr = (int *)symdl("MyIntGlobalVar");
+    char **MyCStringGlobalVarPtr = (char * *)symdl("MyCStringGlobalVar");
+    NSString * const*MyNSStringGlobalVarPtr = (NSString * const*)symdl("MyNSStringGlobalVar");
+    
+    NSLog(@"%d", *MyIntGlobalVarPtr);
+    NSLog(@"%s", *MyCStringGlobalVarPtr);
+    NSLog(@"%@", *MyNSStringGlobalVarPtr);
+    
+//    NSString *v = (__bridge NSString *)x;
+//
+//    NSLog(@"---->%@", v);
     
     
     // Override point for customization after application launch.

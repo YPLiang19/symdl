@@ -1,5 +1,5 @@
 PODS:
-  - symdl (0.6.0)
+  - symdl (0.8.0)
 
 DEPENDENCIES:
   - symdl (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  symdl: 1906f396fff3f7530074ecfc226e17006b12d0a0
+  symdl: 820a1842ffc3e7c083b5d67004a69942c3a85a09
 
 PODFILE CHECKSUM: dee657317d81bb9c2ebdd011dea4ab7ed48efe47
 
