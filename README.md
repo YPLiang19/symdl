@@ -1,6 +1,6 @@
 
 # symdl
-symdl is a simple little tool, its function  is very similar to dlsym, with symdl, you can pass any global C function name string, so as to achieve the dynamic call of C function.
+symdl is a simple little tool, its function  is very similar to dlsym, with symdl, you can pass any global C function name string or global variable, so as to achieve the dynamic call of C function or access the global variable.
 
 
 ## Example
