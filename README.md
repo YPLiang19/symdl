@@ -8,10 +8,18 @@ symdl is a simple little tool, its function  is very similar to dlsym, with symd
 #import <symdl/symdl.h>
 #import <stdio.h>
 
+int MyIntGlobalVar = 10;
+
 int main(){
+    
     FILE *(*my_fopne)(char *, char*)  = symdl("fopen");
     FILE *fp =  my_fopne("your path","w+");
     //do something
+    
+    
+    int *MyIntGlobalVarPtr = (int *)symdl("MyIntGlobalVar");
+    printf("MyIntGlobalVar: %d\n", *MyIntGlobalVarPtr);
+    
     return 0;
 }
 
