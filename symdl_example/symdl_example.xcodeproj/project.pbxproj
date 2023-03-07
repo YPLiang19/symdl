@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8941CAED28B3386500B77455 /* SomeCppFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8941CAEB28B3386500B77455 /* SomeCppFile.cpp */; };
-		89E7B07A25651F06004B02D5 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 89E7B07925651F06004B02D5 /* AppDelegate.mm */; };
+		89E7B07A25651F06004B02D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E7B07925651F06004B02D5 /* AppDelegate.m */; };
 		89E7B07D25651F06004B02D5 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E7B07C25651F06004B02D5 /* SceneDelegate.m */; };
 		89E7B08025651F06004B02D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E7B07F25651F06004B02D5 /* ViewController.m */; };
 		89E7B08325651F06004B02D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89E7B08125651F06004B02D5 /* Main.storyboard */; };
@@ -20,11 +19,9 @@
 
 /* Begin PBXFileReference section */
 		0648422A8C85329A1854638B /* Pods-symdl_example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-symdl_example.release.xcconfig"; path = "Target Support Files/Pods-symdl_example/Pods-symdl_example.release.xcconfig"; sourceTree = "<group>"; };
-		8941CAEB28B3386500B77455 /* SomeCppFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SomeCppFile.cpp; sourceTree = "<group>"; };
-		8941CAEC28B3386500B77455 /* SomeCppFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SomeCppFile.hpp; sourceTree = "<group>"; };
 		89E7B07525651F05004B02D5 /* symdl_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = symdl_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E7B07825651F06004B02D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		89E7B07925651F06004B02D5 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		89E7B07925651F06004B02D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		89E7B07B25651F06004B02D5 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		89E7B07C25651F06004B02D5 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		89E7B07E25651F06004B02D5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -89,13 +86,11 @@
 			isa = PBXGroup;
 			children = (
 				89E7B07825651F06004B02D5 /* AppDelegate.h */,
-				89E7B07925651F06004B02D5 /* AppDelegate.mm */,
+				89E7B07925651F06004B02D5 /* AppDelegate.m */,
 				89E7B07B25651F06004B02D5 /* SceneDelegate.h */,
 				89E7B07C25651F06004B02D5 /* SceneDelegate.m */,
 				89E7B07E25651F06004B02D5 /* ViewController.h */,
 				89E7B07F25651F06004B02D5 /* ViewController.m */,
-				8941CAEC28B3386500B77455 /* SomeCppFile.hpp */,
-				8941CAEB28B3386500B77455 /* SomeCppFile.cpp */,
 				89E7B08125651F06004B02D5 /* Main.storyboard */,
 				89E7B08425651F07004B02D5 /* Assets.xcassets */,
 				89E7B08625651F07004B02D5 /* LaunchScreen.storyboard */,
@@ -201,9 +196,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				89E7B08025651F06004B02D5 /* ViewController.m in Sources */,
-				89E7B07A25651F06004B02D5 /* AppDelegate.mm in Sources */,
+				89E7B07A25651F06004B02D5 /* AppDelegate.m in Sources */,
 				89E7B08B25651F07004B02D5 /* main.m in Sources */,
-				8941CAED28B3386500B77455 /* SomeCppFile.cpp in Sources */,
 				89E7B07D25651F06004B02D5 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,7 +275,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -334,7 +328,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -349,16 +343,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 59669493D8;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 59669493D8;
 				INFOPLIST_FILE = symdl_example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yongpengliang.symdl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ypl.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = comypldemo;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -370,16 +367,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 59669493D8;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 59669493D8;
 				INFOPLIST_FILE = symdl_example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.itop.example123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ypl.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = comypldemo;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

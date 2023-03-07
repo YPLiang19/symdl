@@ -166,5 +166,8 @@ void *symdl(const char *symbol){
             return pointer;
         }
     }
+    if (strcmp(symbol, "strlen") == 0) {
+        return symdl("_platform_strlen");
+    }
     return NULL;
 }
